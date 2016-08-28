@@ -8,19 +8,19 @@ import static org.junit.Assert.assertTrue;
 
 public class LinkedQueueTests {
     @Test
-    public void initialListIsEmpty() {
+    public void initialQueueIsEmpty() {
         assertTrue(new LinkedQueue<String>().isEmpty());
     }
 
     @Test
-    public void afterAddListIsNotEmpty() {
+    public void afterAddQueueIsNotEmpty() {
         LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
         linkedQueue.add("test");
         assertFalse(linkedQueue.isEmpty());
     }
 
     @Test
-    public void afterAddElementIsInList() {
+    public void afterAddElementIsInQueue() {
         final String test = "test";
         LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
         linkedQueue.add(test);
@@ -28,7 +28,7 @@ public class LinkedQueueTests {
     }
 
     @Test
-    public void initialListHaveZeroSize() {
+    public void initialQueueHaveZeroSize() {
         assertEquals(new LinkedQueue<String>().size(),0);
     }
 
@@ -58,7 +58,7 @@ public class LinkedQueueTests {
     }
 
     @Test
-    public void addRemoveElementListEmpty() {
+    public void addRemoveElementQueueEmpty() {
         LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
         linkedQueue.add("test");
         linkedQueue.remove();
@@ -66,11 +66,21 @@ public class LinkedQueueTests {
     }
 
     @Test
-    public void addTwoElementsRemoveOneListSizeOne() {
+    public void addTwoElementsRemoveOneQueueSizeOne() {
         LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
         linkedQueue.add("test");
         linkedQueue.add("test2");
         linkedQueue.remove();
         assertEquals(linkedQueue.size(),1);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void topOnEmptyQueueThrowsException() {
+        new LinkedQueue<String>().top();
+    }
+
+    @Test(expected = AssertionError.class)
+    public void removeOnEmptyQueueThrowsException() {
+        new LinkedQueue<String>().remove();
     }
 }

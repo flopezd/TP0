@@ -45,14 +45,21 @@ public class LinkedQueue<T> implements Queue<T> {
     }
 
     @Override
-    public T top() {
-        return firstNode.getNodeElement();
+    public T top() throws AssertionError {
+        try {
+            return firstNode.getNodeElement();
+        } catch (NullPointerException e) {
+            throw new AssertionError();
+        }
     }
 
     @Override
-    public void remove() {
-        if (isEmpty()) return;
-        firstNode = firstNode.getNextNode();
-        size--;
+    public void remove() throws AssertionError {
+        try {
+            firstNode = firstNode.getNextNode();
+            size--;
+        } catch (NullPointerException e) {
+            throw new AssertionError();
+        }
     }
 }
