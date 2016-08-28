@@ -51,6 +51,8 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public void remove() {
-
+        if (isEmpty()) return;
+        firstNode = firstNode.getNextNode();
+        size--;
     }
 }

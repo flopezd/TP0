@@ -56,4 +56,21 @@ public class LinkedQueueTests {
         linkedQueue.add(test2);
         assertEquals(linkedQueue.top(),test);
     }
+
+    @Test
+    public void addRemoveElementListEmpty() {
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add("test");
+        linkedQueue.remove();
+        assertTrue(linkedQueue.isEmpty());
+    }
+
+    @Test
+    public void addTwoElementsRemoveOneListSizeOne() {
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add("test");
+        linkedQueue.add("test2");
+        linkedQueue.remove();
+        assertEquals(linkedQueue.size(),1);
+    }
 }
