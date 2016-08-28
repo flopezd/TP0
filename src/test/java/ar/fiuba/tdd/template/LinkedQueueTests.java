@@ -26,4 +26,16 @@ public class LinkedQueueTests {
         linkedQueue.add(test);
         assertEquals(linkedQueue.top(),test);
     }
+
+    @Test
+    public void initialListHaveZeroSize() {
+        assertEquals(new LinkedQueue<String>().size(),0);
+    }
+
+    @Test
+    public void afterAddElementSizeIsOne() {
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add("test");
+        assertEquals(linkedQueue.size(),1);
+    }
 }

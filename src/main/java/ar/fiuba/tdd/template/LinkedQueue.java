@@ -1,7 +1,8 @@
 package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
-    T element;
+    private T element;
+    private int size = 0;
 
     @Override
     public boolean isEmpty() {
@@ -10,12 +11,13 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 
     @Override
     public void add(T item) {
         element = item;
+        size++;
     }
 
     @Override
