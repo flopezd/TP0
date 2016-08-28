@@ -1,9 +1,11 @@
 package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
+    T element;
+
     @Override
     public boolean isEmpty() {
-        return false;
+        return element == null;
     }
 
     @Override
@@ -13,12 +15,12 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public void add(T item) {
-
+        element = item;
     }
 
     @Override
     public T top() {
-        return null;
+        return element;
     }
 
     @Override
