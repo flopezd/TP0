@@ -21,13 +21,16 @@ public class LinkedQueue<T> implements Queue<T> {
             this.nextNode = nextNode;
         }
     }
-    private int size = 0;
+
+    private static final int EMPTY_SIZE = 0;
+
+    private int size = EMPTY_SIZE;
     private QueueNode<T> firstNode;
     private QueueNode<T> lastNode;
 
     @Override
     public boolean isEmpty() {
-        return size == 0;
+        return size == EMPTY_SIZE;
     }
 
     @Override
@@ -38,8 +41,11 @@ public class LinkedQueue<T> implements Queue<T> {
     @Override
     public void add(T item) {
         QueueNode<T> newLastNode = new QueueNode<T>(item);
-        if (isEmpty()) firstNode = newLastNode;
-        else lastNode.setNextNode(newLastNode);
+        if (isEmpty()) {
+            firstNode = newLastNode;
+        } else {
+            lastNode.setNextNode(newLastNode);
+        }
         lastNode = newLastNode;
         size++;
     }
