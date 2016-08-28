@@ -1,11 +1,18 @@
 package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
-    private class QueueNode<T> {
+    private interface QueueNode<T> {
+        public T getNodeElement();
+
+        public QueueNode<T> getNextNode();
+
+        public void setNextNode(final QueueNode<T> nextNode);
+    }
+    private class ElementQueueNode<T> implements QueueNode<T>{
         private T nodeElement;
         private QueueNode<T> nextNode;
 
-        private QueueNode(final T nodeElement) {
+        private ElementQueueNode(final T nodeElement) {
             this.nodeElement = nodeElement;
         }
 
@@ -22,11 +29,25 @@ public class LinkedQueue<T> implements Queue<T> {
         }
     }
 
+    private class EmptyQueueNode<T> implements QueueNode<T> {
+        public T getNodeElement() {
+            throw new AssertionError();
+        }
+
+        public QueueNode<T> getNextNode() {
+            throw new AssertionError();
+        }
+
+        public void setNextNode(final QueueNode<T> nextNode) {
+            throw new AssertionError();
+        }
+    }
+
     private static final int EMPTY_SIZE = 0;
 
     private int size = EMPTY_SIZE;
-    private QueueNode<T> firstNode;
-    private QueueNode<T> lastNode;
+    private QueueNode<T> firstNode = new EmptyQueueNode<T>();
+    private QueueNode<T> lastNode = new EmptyQueueNode<T>();
 
     @Override
     public boolean isEmpty() {
@@ -40,7 +61,7 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public void add(T item) {
-        QueueNode<T> newLastNode = new QueueNode<T>(item);
+        QueueNode<T> newLastNode = new ElementQueueNode<T>(item);
         if (isEmpty()) {
             firstNode = newLastNode;
         } else {
@@ -52,20 +73,12 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public T top() throws AssertionError {
-        try {
-            return firstNode.getNodeElement();
-        } catch (NullPointerException e) {
-            throw new AssertionError();
-        }
+        return firstNode.getNodeElement();
     }
 
     @Override
     public void remove() throws AssertionError {
-        try {
-            firstNode = firstNode.getNextNode();
-            size--;
-        } catch (NullPointerException e) {
-            throw new AssertionError();
-        }
+        firstNode = firstNode.getNextNode();
+        size--;
     }
 }
