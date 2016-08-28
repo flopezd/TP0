@@ -38,4 +38,22 @@ public class LinkedQueueTests {
         linkedQueue.add("test");
         assertEquals(linkedQueue.size(),1);
     }
+
+    @Test
+    public void afterAddTwoElementsSizeIncerease() {
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add("test");
+        linkedQueue.add("test2");
+        assertEquals(linkedQueue.size(),2);
+    }
+
+    @Test
+    public void afterAddTwoElementsTopNotChange() {
+        final String test = "test";
+        final String test2 = "test2";
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add(test);
+        linkedQueue.add(test2);
+        assertEquals(linkedQueue.top(),test);
+    }
 }
