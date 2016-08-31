@@ -94,4 +94,17 @@ public class LinkedQueueTests {
         linkedQueue.add(test2);
         assertEquals(linkedQueue.top(),test2);
     }
+
+    @Test
+    public void afterAdd5ElementsRemove2Size3() {
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add("1");
+        linkedQueue.add("2");
+        linkedQueue.add("3");
+        linkedQueue.add("4");
+        linkedQueue.add("5");
+        linkedQueue.remove();
+        linkedQueue.remove();
+        assertEquals(linkedQueue.size(),3);
+    }
 }

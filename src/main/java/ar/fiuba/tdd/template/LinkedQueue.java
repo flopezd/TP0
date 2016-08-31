@@ -2,25 +2,22 @@ package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
     private static final int EMPTY_SIZE = 0;
-
-    private int size = EMPTY_SIZE;
     private QueueNode<T> firstNode = new EmptyQueueNode<T>();
     private QueueNode<T> lastNode = new EmptyQueueNode<T>();
 
     @Override
     public boolean isEmpty() {
-        return size == EMPTY_SIZE;
+        return size() == EMPTY_SIZE;
     }
 
     @Override
     public int size() {
-        return size;
+        return firstNode.getSize();
     }
 
     @Override
     public void add(T item) {
         lastNode = lastNode.createNextNode(item, this);
-        size++;
     }
 
     @Override
@@ -31,7 +28,6 @@ public class LinkedQueue<T> implements Queue<T> {
     @Override
     public void remove() throws AssertionError {
         firstNode = firstNode.getNextNode(this);
-        size--;
     }
 
     private QueueNode<T> createFirstNode(T item) {
@@ -50,9 +46,11 @@ public class LinkedQueue<T> implements Queue<T> {
         public QueueNode<T> createNextNode(final T item, final LinkedQueue<T> linkedQueue);
 
         public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue);
+
+        public int getSize();
     }
 
-    private class ElementQueueNode<T> implements QueueNode<T>{
+    private class ElementQueueNode<T> implements QueueNode<T> {
         private T nodeElement;
         private QueueNode<T> nextNode = new EmptyQueueNode<T>();
 
@@ -75,6 +73,10 @@ public class LinkedQueue<T> implements Queue<T> {
         public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue) {
             return this;
         }
+
+        public int getSize() {
+            return 1 + nextNode.getSize();
+        }
     }
 
     private class EmptyQueueNode<T> implements QueueNode<T> {
@@ -92,6 +94,10 @@ public class LinkedQueue<T> implements Queue<T> {
 
         public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue) {
             return linkedQueue.createLastEmptyNode();
+        }
+
+        public int getSize() {
+            return 0;
         }
     }
 }
