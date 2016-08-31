@@ -1,48 +1,6 @@
 package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
-    private interface QueueNode<T> {
-        public T getNodeElement();
-
-        public QueueNode<T> getNextNode();
-
-        public void setNextNode(final QueueNode<T> nextNode);
-    }
-    private class ElementQueueNode<T> implements QueueNode<T>{
-        private T nodeElement;
-        private QueueNode<T> nextNode;
-
-        private ElementQueueNode(final T nodeElement) {
-            this.nodeElement = nodeElement;
-        }
-
-        public T getNodeElement() {
-            return nodeElement;
-        }
-
-        public QueueNode<T> getNextNode() {
-            return nextNode;
-        }
-
-        public void setNextNode(final QueueNode<T> nextNode) {
-            this.nextNode = nextNode;
-        }
-    }
-
-    private class EmptyQueueNode<T> implements QueueNode<T> {
-        public T getNodeElement() {
-            throw new AssertionError();
-        }
-
-        public QueueNode<T> getNextNode() {
-            throw new AssertionError();
-        }
-
-        public void setNextNode(final QueueNode<T> nextNode) {
-            throw new AssertionError();
-        }
-    }
-
     private static final int EMPTY_SIZE = 0;
 
     private int size = EMPTY_SIZE;
@@ -61,13 +19,7 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public void add(T item) {
-        QueueNode<T> newLastNode = new ElementQueueNode<T>(item);
-        if (isEmpty()) {
-            firstNode = newLastNode;
-        } else {
-            lastNode.setNextNode(newLastNode);
-        }
-        lastNode = newLastNode;
+        lastNode = lastNode.createNextNode(item, this);
         size++;
     }
 
@@ -78,7 +30,68 @@ public class LinkedQueue<T> implements Queue<T> {
 
     @Override
     public void remove() throws AssertionError {
-        firstNode = firstNode.getNextNode();
+        firstNode = firstNode.getNextNode(this);
         size--;
+    }
+
+    private QueueNode<T> createFirstNode(T item) {
+        return firstNode = new ElementQueueNode<T>(item);
+    }
+
+    private QueueNode<T> createLastEmptyNode() {
+        return lastNode = new EmptyQueueNode<>();
+    }
+
+    private interface QueueNode<T> {
+        public T getNodeElement();
+
+        public QueueNode<T> getNextNode(final LinkedQueue<T> linkedQueue);
+
+        public QueueNode<T> createNextNode(final T item, final LinkedQueue<T> linkedQueue);
+
+        public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue);
+    }
+
+    private class ElementQueueNode<T> implements QueueNode<T>{
+        private T nodeElement;
+        private QueueNode<T> nextNode = new EmptyQueueNode<T>();
+
+        private ElementQueueNode(final T nodeElement) {
+            this.nodeElement = nodeElement;
+        }
+
+        public T getNodeElement() {
+            return nodeElement;
+        }
+
+        public QueueNode<T> getNextNode(final LinkedQueue<T> linkedQueue) {
+            return nextNode.getNode(linkedQueue);
+        }
+
+        public QueueNode<T> createNextNode(final T item, final LinkedQueue<T> linkedQueue) {
+            return  nextNode = new ElementQueueNode<T>(item);
+        }
+
+        public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue) {
+            return this;
+        }
+    }
+
+    private class EmptyQueueNode<T> implements QueueNode<T> {
+        public T getNodeElement() {
+            throw new AssertionError();
+        }
+
+        public QueueNode<T> getNextNode(final LinkedQueue<T> linkedQueue) {
+            throw new AssertionError();
+        }
+
+        public QueueNode<T> createNextNode(final T item, final LinkedQueue<T> linkedQueue) {
+            return linkedQueue.createFirstNode(item);
+        }
+
+        public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue) {
+            return linkedQueue.createLastEmptyNode();
+        }
     }
 }

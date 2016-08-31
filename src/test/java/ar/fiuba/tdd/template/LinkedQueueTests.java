@@ -83,4 +83,15 @@ public class LinkedQueueTests {
     public void removeOnEmptyQueueThrowsException() {
         new LinkedQueue<String>().remove();
     }
+
+    @Test
+    public void addElementRemoveAndAddAgainTopIsLastElement() {
+        final String test = "test";
+        final String test2 = "test2";
+        LinkedQueue<String> linkedQueue = new LinkedQueue<String>();
+        linkedQueue.add(test);
+        linkedQueue.remove();
+        linkedQueue.add(test2);
+        assertEquals(linkedQueue.top(),test2);
+    }
 }
