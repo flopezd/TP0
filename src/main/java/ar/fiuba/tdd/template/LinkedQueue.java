@@ -1,13 +1,12 @@
 package ar.fiuba.tdd.template;
 
 public class LinkedQueue<T> implements Queue<T> {
-    private static final int EMPTY_SIZE = 0;
     private QueueNode<T> firstNode = new EmptyQueueNode<T>();
     private QueueNode<T> lastNode = new EmptyQueueNode<T>();
 
     @Override
     public boolean isEmpty() {
-        return size() == EMPTY_SIZE;
+        return firstNode.isEmpty();
     }
 
     @Override
@@ -48,6 +47,8 @@ public class LinkedQueue<T> implements Queue<T> {
         public QueueNode<T> getNode(final LinkedQueue<T> linkedQueue);
 
         public int getSize();
+
+        public boolean isEmpty();
     }
 
     private class ElementQueueNode<T> implements QueueNode<T> {
@@ -77,6 +78,10 @@ public class LinkedQueue<T> implements Queue<T> {
         public int getSize() {
             return 1 + nextNode.getSize();
         }
+
+        public boolean isEmpty() {
+            return false;
+        }
     }
 
     private class EmptyQueueNode<T> implements QueueNode<T> {
@@ -98,6 +103,10 @@ public class LinkedQueue<T> implements Queue<T> {
 
         public int getSize() {
             return 0;
+        }
+
+        public boolean isEmpty() {
+            return true;
         }
     }
 }
